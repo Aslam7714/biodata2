@@ -16,7 +16,7 @@
 html{-webkit-text-size-adjust:100%}
 body{font-family:"Nunito",sans-serif;background:var(--g1);color:#fff;overflow-x:hidden;overscroll-behavior:none}
 #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-#loader{position:fixed;inset:0;background:var(--g1);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s,visibility .5s}
+#loader{position:fixed;inset:0;background:var(--g1);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9998;transition:opacity .5s,visibility .5s}
 #loader.out{opacity:0;visibility:hidden;pointer-events:none}
 .ld-outer{position:relative;width:64px;height:64px;margin-bottom:1rem}
 .ld-ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(201,168,76,.1);border-top-color:var(--gold);animation:spin 1.1s linear infinite}
@@ -174,7 +174,7 @@ body{font-family:"Nunito",sans-serif;background:var(--g1);color:#fff;overflow-x:
 .pm-item img{width:38px;height:38px;object-fit:cover;border-radius:5px}
 .pm-item .info{flex:1;font-size:.73rem;color:rgba(255,255,255,.38);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .orn{text-align:center;color:var(--gold);font-size:.75rem;letter-spacing:7px;opacity:.28;padding:.35rem 0}
-#setup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:8000;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#setup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:99999;overflow-y:auto;-webkit-overflow-scrolling:touch;backdrop-filter:blur(6px)}
 .sb{background:var(--g2);border:1px solid rgba(201,168,76,.13);border-radius:var(--r);padding:1.6rem 1.1rem;max-width:430px;width:calc(100% - 1.6rem);margin:1.6rem auto 5rem}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:rgba(201,168,76,.16);border-radius:2px}
 </style>
@@ -450,8 +450,12 @@ window.addEventListener('load',function(){
   var mid=getMID(),ek=getEditKey(),lc=getLCFG();
 
   if(!mid){
-    if(ek){document.getElementById('setup').style.display='block';hideLoader();}
-    else{animName('');setEmpty();hideLoader();}
+    if(ek){
+      // Hide loader instantly, show setup on top
+      document.getElementById('loader').classList.add('out');
+      document.getElementById('app').classList.add('show');
+      document.getElementById('setup').style.display='block';
+    } else {animName('');setEmpty();hideLoader();}
     return;
   }
 
